@@ -1,7 +1,7 @@
 <template>  
   <div class="bg-gray-800 text-gray-50 h-screen w-100 overflow-hidden" v-if="this.cards">
     <button @click="menuOpen = true">Open Menu</button>
-    <StartMenu class="z-20" v-if="menuOpen" :cards="cards" @newGame="makeNewGame"></StartMenu>
+    <StartMenu class="z-20" v-if="menuOpen" :cards="cards" @newGame="makeNewGame" @close="menuOpen = false"></StartMenu>
     <div v-if="gameState" class="z-auto bg-gray-800 text-white flex flex-col flex-between">
       <div id="tracker" class="flex-grow flex flex-row">
         <DoomTrack v-model:scenario="gameState.scenario"></DoomTrack>
@@ -81,7 +81,11 @@ export default {
             health: 0,
             sanity: 0,
             done: false,
-            dead: false
+            dead: false,
+            willpower: 0,
+            intellect: 0,
+            combat: 0,
+            agility: 0
           };
           return i;
         }),

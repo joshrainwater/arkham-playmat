@@ -1,10 +1,25 @@
 <template>
   <div class="flex flex-col m-8 bg-gray-500" style="width:413px;">
     <span @click="flipped = !flipped">Flip</span>
+    <div>
+      <span v-show="investigator.currentState.willpower" @click="adjustStat('willpower', false)">+{{investigator.currentState.willpower}} W</span>
+      <span v-show="investigator.currentState.intellect" @click="adjustStat('intellect', false)">+{{investigator.currentState.intellect}} I</span>
+      <span v-show="investigator.currentState.combat" @click="adjustStat('combat', false)">+{{investigator.currentState.combat}} C</span>
+      <span v-show="investigator.currentState.agility" @click="adjustStat('agility', false)">+{{investigator.currentState.agility}} A</span>
+    </div>
     <div class="flex-grow">
       <div class="card">
-        <div class="card-inner" :class="classes" @click="takeTurn()">
-          <img class="card-front" style="border-radius: .9rem" :src="`https://arkhamdb.com${investigator.imagesrc}`"/>
+        <div class="card-inner" :class="classes">
+          <img class="card-front" style="border-radius: .9rem" :src="`https://arkhamdb.com${investigator.imagesrc}`" :usemap="`#investigator-map-${investigator.code}`"/>
+          <map :name="`investigator-map-${investigator.code}`">
+            <area @click="takeTurn()" alt="Take Turn" title="Take Turn" coords="0,0,217,299" shape="rect">
+            <area @click="adjustStat('willpower')" alt="Willpower" title="Willpower" coords="274,48,224,7" shape="rect">
+            <area @click="adjustStat('intellect')" alt="Intellect" title="Intellect" coords="275,10,320,46" shape="rect">
+            <area @click="adjustStat('combat')" alt="Combat" title="Combat" coords="323,8,368,46" shape="rect">
+            <area @click="adjustStat('agility')" alt="Agility" title="Agility" coords="369,6,414,44" shape="rect">
+            <area @click="adjustStat('health', false)" alt="Health" title="Health" coords="286,239,322,278" shape="rect">
+            <area @click="adjustStat('sanity', false)" alt="Sanity" title="Sanity" coords="328,239,370,279" shape="rect">
+          </map>
           <img class="card-back" style="border-radius: .9rem" :src="`https://arkhamdb.com${investigator.backimagesrc}`"/>
         </div>
       </div>
