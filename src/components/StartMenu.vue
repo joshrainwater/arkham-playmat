@@ -50,7 +50,7 @@ export default {
   computed: {
     investigators() {
       return this.cards.filter(c => c.type_code == 'investigator' && c.pack_code == 'core');
-    },
+    }
   },
   data() {
     return {

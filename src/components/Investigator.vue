@@ -10,17 +10,17 @@
     <div class="flex-grow">
       <div class="card">
         <div class="card-inner" :class="classes">
-          <img class="card-front" style="border-radius: .9rem" :src="`https://arkhamdb.com${investigator.imagesrc}`" :usemap="`#investigator-map-${investigator.code}`"/>
+          <img class="card-front" :src="`https://arkhamdb.com${investigator.imagesrc}`" :usemap="`#investigator-map-${investigator.code}`"/>
           <map :name="`investigator-map-${investigator.code}`">
             <area @click="takeTurn()" alt="Take Turn" title="Take Turn" coords="0,0,217,299" shape="rect">
             <area @click="adjustStat('willpower')" alt="Willpower" title="Willpower" coords="274,48,224,7" shape="rect">
             <area @click="adjustStat('intellect')" alt="Intellect" title="Intellect" coords="275,10,320,46" shape="rect">
             <area @click="adjustStat('combat')" alt="Combat" title="Combat" coords="323,8,368,46" shape="rect">
             <area @click="adjustStat('agility')" alt="Agility" title="Agility" coords="369,6,414,44" shape="rect">
-            <area @click="adjustStat('health', false)" alt="Health" title="Health" coords="286,239,322,278" shape="rect">
-            <area @click="adjustStat('sanity', false)" alt="Sanity" title="Sanity" coords="328,239,370,279" shape="rect">
+            <area @click="adjustStat('health')" alt="Health" title="Health" coords="286,239,322,278" shape="rect">
+            <area @click="adjustStat('sanity')" alt="Sanity" title="Sanity" coords="328,239,370,279" shape="rect">
           </map>
-          <img class="card-back" style="border-radius: .9rem" :src="`https://arkhamdb.com${investigator.backimagesrc}`"/>
+          <img class="card-back" :src="`https://arkhamdb.com${investigator.backimagesrc}`"/>
         </div>
       </div>
     </div>

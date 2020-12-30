@@ -2,7 +2,9 @@
   <div class="flex flex-col m-8 bg-gray-500">
     <!-- <pre><code>{{scenario}}</code></pre> -->
     <span>Agenda {{scenario.agenda}}</span>
-    <span style="font-size:30px" v-for="doom in scenario.doom">*</span>
+    <div>
+      <span class="inline-block" style="font-size:30px" v-for="doom in scenario.doom">*</span> [{{scenario.doom}}]
+    </div>
     <button @click="addDoom()">AddDoom</button>
     <button @click="removeDoom()">RemoveDoom</button>
     <button @click="advanceAgenda()">Agenda</button>
