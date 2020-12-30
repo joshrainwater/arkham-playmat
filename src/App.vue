@@ -1,14 +1,8 @@
 <template>  
-  <div class="bg-gray-800 text-gray-50" v-if="gameState">
-        <!-- <div>
-          <p class="flex-grow">ResetGameState</p>
-        </div> -->
-
-    <!-- <StartMenu 
-      :cards="cards"
-      :scenario="scenario" 
-      :investigators="investigators"></StartMenu> -->
-    <div class="bg-gray-800 text-white flex flex-col flex-between">
+  <div class="bg-gray-800 text-gray-50 h-screen w-100 overflow-hidden" v-if="this.cards">
+    <button @click="menuOpen = true">Open Menu</button>
+    <StartMenu class="z-20" v-if="menuOpen" :cards="cards" @newGame="makeNewGame"></StartMenu>
+    <div v-if="gameState" class="z-auto bg-gray-800 text-white flex flex-col flex-between">
       <div id="tracker" class="flex-grow flex flex-row">
         <DoomTrack v-model:scenario="gameState.scenario"></DoomTrack>
         <ChaosBag v-model:chaosBag="gameState.chaosBag" v-model:tokensDrawn="gameState.tokensDrawn"></ChaosBag>
@@ -26,25 +20,29 @@
 
 <script>
 import axios from 'axios';
-// import StartMenu from './components/StartMenu.vue';
 import ChaosBag from './components/ChaosBag.vue';
 import DoomTrack from './components/DoomTrack.vue';
 import Investigator from './components/Investigator.vue';
+import StartMenu from './components/StartMenu.vue';
 
 export default {
   name: 'App',
   components: {
-    ChaosBag, DoomTrack, Investigator
+    ChaosBag, DoomTrack, Investigator, StartMenu
   },
   data() {
     return {
+      menuOpen: true,
       cards: null,
       gameState: null,
     }
   },
   mounted() {
     this.loadCards();
-    this.loadGameState();
+    this.loadPreviousGameState();
+    if(!this.gameState) {
+      this.menuOpen = true;
+    }
   },
   watch: {
     // gameState(newState, oldState) {
@@ -69,37 +67,33 @@ export default {
         });
       }
     },
-    loadGameState() {
-    
+    loadPreviousGameState() {
       // this.gameState = JSON.parse(localStorage.getItem('gameState'));
-
-      if(!this.gameState) {
-        this.gameState = {
-          investigators: this.cards.filter((card) => {
-            return ['01001', '01002'].includes(card.code)
-          }).map((investigator) => {
-            let i = investigator;
-            i.currentState = {
-              clues: 0,
-              resources: 5,
-              health: 0,
-              sanity: 0,
-              done: false,
-              dead: false
-            };
-            return i;
-          }),
-          scenario: {
-            agenda: 1,
-            doom: 0
-          },
-          chaosBag: [
-            '+1', '0', '0', '-1', '-1', '-1', '-2', '-2', '-3', '-4', 'skull', 'skull', 'cultist', 'tombstone', 'chaos', 'eldersign'
-          ],
-          tokensDrawn: []
-        };
-      }
     },
+    makeNewGame(settings) {
+
+      this.gameState = {
+        investigators: settings.investigators.map((investigator) => {
+          let i = investigator;
+          i.currentState = {
+            clues: 0,
+            resources: 5,
+            health: 0,
+            sanity: 0,
+            done: false,
+            dead: false
+          };
+          return i;
+        }),
+        scenario: {
+          agenda: 1,
+          doom: 0
+        },
+        chaosBag: settings.chaosBag,
+        tokensDrawn: []
+      };
+      this.menuOpen = false;
+    }
   }
 }
 </script>

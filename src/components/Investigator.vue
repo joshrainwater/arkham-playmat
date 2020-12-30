@@ -4,8 +4,8 @@
     <div class="flex-grow">
       <div class="card">
         <div class="card-inner" :class="classes" @click="takeTurn()">
-          <img class="card-front" :src="`https://arkhamdb.com${investigator.imagesrc}`"/>
-          <img class="card-back" :src="`https://arkhamdb.com${investigator.backimagesrc}`"/>
+          <img class="card-front" style="border-radius: .9rem" :src="`https://arkhamdb.com${investigator.imagesrc}`"/>
+          <img class="card-back" style="border-radius: .9rem" :src="`https://arkhamdb.com${investigator.backimagesrc}`"/>
         </div>
       </div>
     </div>
@@ -31,7 +31,7 @@
         <span class="block text-center" @click="adjustStat('sanity', false)">Down</span>
       </div>
     </div>
-    <pre><code>{{investigator}}</code></pre>
+    <!-- <pre><code>{{investigator}}</code></pre> -->
   </div>
 </template>
 <script>

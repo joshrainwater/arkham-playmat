@@ -36,6 +36,15 @@
   filter: sepia() hue-rotate(300deg) opacity(.6);
 }
 
+.investigator-thumbnail {
+  display: inline-block;
+  background-repeat: no-repeat;
+  width: 120px;
+  height: 55px;
+  background-size: 270px 180px;
+  background-position: -5px -45px;
+}
+
 
 /*! @import */
 @tailwind base;
