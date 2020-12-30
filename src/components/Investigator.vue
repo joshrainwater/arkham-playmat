@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col m-8 bg-gray-500">
+  <div class="flex flex-col m-8 bg-gray-500" style="width:413px;">
     <span @click="flipped = !flipped">Flip</span>
     <div class="flex-grow">
       <div class="card">
@@ -31,6 +31,7 @@
         <span class="block text-center" @click="adjustStat('sanity', false)">Down</span>
       </div>
     </div>
+    <pre><code>{{investigator}}</code></pre>
   </div>
 </template>
 <script>

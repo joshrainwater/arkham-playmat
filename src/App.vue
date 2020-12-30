@@ -1,18 +1,17 @@
 <template>  
-  <div class="bg-gray-800 text-gray-50">
+  <div class="bg-gray-800 text-gray-50" v-if="gameState">
+        <!-- <div>
+          <p class="flex-grow">ResetGameState</p>
+        </div> -->
+
     <!-- <StartMenu 
       :cards="cards"
       :scenario="scenario" 
       :investigators="investigators"></StartMenu> -->
-    <div class="bg-gray-800 text-white flex flex-col flex-between h-screen overflow-hidden">
-      <div id="scenario" class="flex-grow flex flex-row">
-        <div>
-          <p class="flex-grow">ResetGameState</p>
-          <pre class="flex"><code class="flex-grow" v-for="i in gameState.investigators" :key="i.code">{{i.name}} {{i.currentState}}</code></pre>
-        </div>
-        <div class="">
-          <p>Draw Token</p>
-        </div>
+    <div class="bg-gray-800 text-white flex flex-col flex-between">
+      <div id="tracker" class="flex-grow flex flex-row">
+        <DoomTrack v-model:scenario="gameState.scenario"></DoomTrack>
+        <ChaosBag v-model:chaosBag="gameState.chaosBag" v-model:tokensDrawn="gameState.tokensDrawn"></ChaosBag>
       </div>
       <div id="investigators" class="flex-grow flex flex-row">
         <template v-for="(investigator, index) in gameState.investigators" :key="index">
@@ -28,17 +27,19 @@
 <script>
 import axios from 'axios';
 // import StartMenu from './components/StartMenu.vue';
+import ChaosBag from './components/ChaosBag.vue';
+import DoomTrack from './components/DoomTrack.vue';
 import Investigator from './components/Investigator.vue';
 
 export default {
   name: 'App',
   components: {
-    Investigator
+    ChaosBag, DoomTrack, Investigator
   },
   data() {
     return {
       cards: null,
-      gameState: {},
+      gameState: null,
     }
   },
   mounted() {
@@ -46,7 +47,7 @@ export default {
     this.loadGameState();
   },
   watch: {
-    gameState(newState, oldState) {
+    // gameState(newState, oldState) {
       // console.log('gameState updated');
 
       // let turnsTaken = newState.investigators.filter((i) => {
@@ -55,7 +56,7 @@ export default {
       // console.log(turnsTaken.length);
 
       // localStorage.setItem('gameState', JSON.stringify(newState));
-    }
+    // }
   },
   methods: {
     loadCards() {
@@ -70,24 +71,32 @@ export default {
     },
     loadGameState() {
     
-      this.gameState = JSON.parse(localStorage.getItem('gameState'));
+      // this.gameState = JSON.parse(localStorage.getItem('gameState'));
 
       if(!this.gameState) {
-        let investigators = this.cards.filter((card) => {
-          return ['01001', '01004'].includes(card.code)
-        }).map((investigator) => {
-          let i = investigator;
-          i.currentState = {
-            clues: 0,
-            resources: 5,
-            health: 0,
-            sanity: 0
-          };
-          return i;
-        });
         this.gameState = {
-          scenario: 'Nothing Yet',
-          investigators: investigators,
+          investigators: this.cards.filter((card) => {
+            return ['01001', '01002'].includes(card.code)
+          }).map((investigator) => {
+            let i = investigator;
+            i.currentState = {
+              clues: 0,
+              resources: 5,
+              health: 0,
+              sanity: 0,
+              done: false,
+              dead: false
+            };
+            return i;
+          }),
+          scenario: {
+            agenda: 1,
+            doom: 0
+          },
+          chaosBag: [
+            '+1', '0', '0', '-1', '-1', '-1', '-2', '-2', '-3', '-4', 'skull', 'skull', 'cultist', 'tombstone', 'chaos', 'eldersign'
+          ],
+          tokensDrawn: []
         };
       }
     },
