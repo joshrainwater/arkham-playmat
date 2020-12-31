@@ -12,8 +12,6 @@
           <Investigator class="flex-1" v-model:investigator="gameState.investigators[index]"></Investigator>
         </template>
       </div>
-      <div>
-      </div>
     </div> 
   </div>
 </template>
