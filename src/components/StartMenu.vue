@@ -18,17 +18,12 @@
           </template>
         </div>
 
-        <!-- <h2>Choose Difficulty.</h2>
-        <template v-for="(chaosBag, difficulty) in difficultyOptions" :key="difficulty">
-          <div @click="pickedDifficulty = difficulty">
-            {{difficulty}}
-            {{chaosBag}}
-          </div>
-        </template> -->
-        <h2>Add Chaos Tokens</h2>
-        <template v-for="token in tokens" :key="token">
-          <div @click="addToken(token)">{{token}}</div>
-        </template>
+        <h2>Add Tokens to Bag</h2>
+        <div class="flex flex-wrap flex-row">
+          <template v-for="token in tokens" :key="token">
+            <Token class="w-16 h-16 p-2" chaos :token="token" @click="addToken(token)"></Token>
+          </template>
+        </div>
       </div>
       <div id="picked" class="flex-1">
         <template v-for="(investigator, index) in pickedInvestigators" :key="index">
@@ -37,24 +32,25 @@
             <span class="title">{{investigator.name}}</span>
           </div>
         </template>
-        <template v-for="(token, index) in pickedChaosBag" :key="index">
-          <div @click="removeToken(index)">{{token}}</div>
-        </template>        <!-- <div>
-          {{pickedDifficulty}}
-          {{difficultyOptions[pickedDifficulty]}}
-        </div> -->
+        <h2>Chaos Bag</h2>
+        <div class="flex flex-wrap flex-row">
+          <template v-for="(token, index) in pickedChaosBag" :key="index">
+            <Token class="w-16 h-16 p-2" chaos :token="token" @click="removeToken(index)" rotate></Token>
+          </template>
+        </div>
       </div>
     </div>
     <button @click="startGame()">Start Game</button>
   </div>
 </template>
 <script>
+import Token from './Token.vue';
 import InvestigatorPill from './InvestigatorPill.vue';
 
 export default {
   name: 'StartMenu',
   components: {
-    InvestigatorPill
+    Token,InvestigatorPill
   },
   props: ['cards'],
   computed: {
@@ -91,10 +87,10 @@ export default {
       packFilter: 'core',
       factionFilter: '',
       tokens: [
-        '+1', '0', '-1', '-2', '-3', '-4', '-5', '-6', '-7', '-8', 'skull', 'tablet', 'cultist', 'elder-thing', 'elder-sign', 'tenacles'
+        '+1', '0', '-1', '-2', '-3', '-4', '-5', '-6', '-7', '-8', 'skull', 'cultist', 'tombstone', 'tentacles', 'elder-thing', 'elder-sign'
       ],
       pickedInvestigators: [],
-      pickedChaosBag: ['+1', '0', '0', '-1', '-1', '-1', '-2', '-2', '-3', '-4', 'skull', 'skull', 'cultist', 'tombstone', 'chaos', 'eldersign'],
+      pickedChaosBag: ['+1', '0', '0', '-1', '-1', '-1', '-2', '-2', '-3', '-4', 'skull', 'skull', 'cultist', 'tombstone', 'tentacles', 'elder-sign'],
       // pickedDifficulty: 'standard',
       // difficultyOptions: {
       //   'easy': ['+1', '0', '0', '-1', '-1', '-1', '-2', '-2', '-3', '-4', 'skull', 'skull', 'cultist', 'tombstone', 'chaos', 'eldersign'],

@@ -3,7 +3,9 @@
     <!-- <pre><code>{{scenario}}</code></pre> -->
     <span>Agenda {{scenario.agenda}}</span>
     <div>
-      <span class="inline-block" style="font-size:30px" v-for="doom in scenario.doom">*</span> [{{scenario.doom}}]
+      <template v-for="doom in scenario.doom">
+        <Token token="doom" class="inline-block w-8 h-8 m-1" shift></Token>
+      </template> <span class="title">[{{scenario.doom}}]</span>
     </div>
     <button @click="addDoom()">AddDoom</button>
     <button @click="removeDoom()">RemoveDoom</button>
@@ -11,8 +13,13 @@
   </div>
 </template>
 <script>
+import Token from './Token.vue';
+
 export default {
   name: 'DoomTrack',
+  components: {
+    Token
+  },
   props: ['scenario'],
   emits: ['update:scenario'],
   methods: {

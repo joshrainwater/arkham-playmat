@@ -43,6 +43,9 @@ export default {
     }
   },
   watch: {
+    gameState(newState, oldState) {
+      console.log('gameState updated')
+    }
     // gameState(newState, oldState) {
       // console.log('gameState updated');
 

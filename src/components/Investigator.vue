@@ -26,32 +26,40 @@
     </div>
     <div class="flex-initial flex flex-row mx-8 bg-green-900">
       <div class="flex-1">
-        <span class="block text-center" @click="adjustStat('clues', true)">Up</span>
-        <span class="block text-center">CLUES {{investigator.currentState.clues}}</span>
-        <span class="block text-center" @click="adjustStat('clues', false)">Down</span>
+        <span class="block text-center title text-xl" @click="adjustStat('clues', true)">+</span>
+        <div class="tokens">
+          <TokenPile token="clue" :count="investigator.currentState.clues" class="mr-1"></TokenPile> <span class="title text-xl">{{investigator.currentState.clues}}</span>
+        </div>
+        <span class="block text-center title text-xl" @click="adjustStat('clues', false)">-</span>
       </div>
       <div class="flex-1">
-        <span class="block text-center" @click="adjustStat('resources', true)">Up</span>
-        <span class="block text-center">RESOURCES {{investigator.currentState.resources}}</span>
-        <span class="block text-center" @click="adjustStat('resources', false)">Down</span>
+        <span class="block text-center" @click="adjustStat('resources', true)">+</span>
+        <TokenPile token="resource" :count="investigator.currentState.resources" class="mr-1"></TokenPile> <span class="title text-xl">{{investigator.currentState.resources}}</span>
+        <span class="block text-center" @click="adjustStat('resources', false)">-</span>
       </div>
       <div class="flex-1">
-        <span class="block text-center" @click="adjustStat('health', true)">Up</span>
-        <span class="block text-center">HEALTH {{investigator.currentState.health}}</span>
-        <span class="block text-center" @click="adjustStat('health', false)">Down</span>
+        <span class="block text-center" @click="adjustStat('health', true)">+</span>
+        <TokenPile token="health" :count="investigator.currentState.health" class="mr-1"></TokenPile> <span class="title text-xl">{{investigator.currentState.health}}</span>
+        <span class="block text-center" @click="adjustStat('health', false)">-</span>
       </div>
       <div class="flex-1">
-        <span class="block text-center" @click="adjustStat('sanity', true)">Up</span>
-        <span class="block text-center">SANITY {{investigator.currentState.sanity}}</span>
-        <span class="block text-center" @click="adjustStat('sanity', false)">Down</span>
+        <span class="block text-center" @click="adjustStat('sanity', true)">+</span>
+        <TokenPile token="sanity" :count="investigator.currentState.sanity" class="mr-1"></TokenPile> <span class="title text-xl">{{investigator.currentState.sanity}}</span>
+        <span class="block text-center" @click="adjustStat('sanity', false)">-</span>
       </div>
     </div>
     <!-- <pre><code>{{investigator}}</code></pre> -->
   </div>
 </template>
 <script>
+import Token from './Token.vue';
+import TokenPile from './TokenPile.vue';
+
 export default {
   name: 'Investigator',
+  components: {
+    Token, TokenPile
+  },
   props: ['investigator'],
   emits: ['update:investigator'],
   data() {
