@@ -1,15 +1,21 @@
 <template>
-  <div class="flex flex-col m-8 bg-gray-500">
+  <div class="flex flex-col">
     <!-- <pre><code>{{scenario}}</code></pre> -->
-    <span>Agenda {{scenario.agenda}}</span>
-    <div>
-      <template v-for="doom in scenario.doom">
-        <Token token="doom" class="inline-block w-8 h-8 m-1" shift></Token>
-      </template> <span class="title">[{{scenario.doom}}]</span>
+    <div class="text-center mb-4">
+      <span class="title text-xl">Agenda {{scenario.agenda}}</span>
+      <span @click="advanceAgenda()" class="p-1 ml-4 cursor-pointer rounded-full text-lg title w-8 h-8 inline-block" style="background-color: rgba(255,255,255,.25)">+</span>
     </div>
-    <button @click="addDoom()">AddDoom</button>
-    <button @click="removeDoom()">RemoveDoom</button>
-    <button @click="advanceAgenda()">Agenda</button>
+    <div class="text-center flex flex-row">
+      <span class="block w-10 h-10 title rounded-full cursor-pointer" style="background: rgba(255,255,255,.2); font-size: 1.75rem" @click="removeDoom()">-</span>
+      <div class="flex-grow">
+        <Token v-if="!scenario.doom" token="doom" class="w-12 h-12 m-auto inline-block" style="filter: grayscale()"></Token>    
+        <template v-else v-for="doom in scenario.doom">
+          <Token token="doom" class="inline-block w-12 h-12 m-1" shift></Token>
+        </template> 
+        <span v-if="scenario.doom" class="title inline-block align-top mt-2 ml-2">[{{scenario.doom}}]</span>
+      </div>
+      <span class="block w-10 h-10 title rounded-full cursor-pointer" style="background: rgba(255,255,255,.2); font-size: 1.75rem" @click="addDoom()">+</span>
+    </div>
   </div>
 </template>
 <script>
@@ -27,7 +33,9 @@ export default {
       this.scenario.doom++;
     },
     removeDoom() {
-      this.scenario.doom--;
+      if(this.scenario.doom) {
+        this.scenario.doom--;
+      }
     },
     advanceAgenda() {
       this.scenario.doom = 0;

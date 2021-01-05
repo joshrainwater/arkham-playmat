@@ -1,56 +1,51 @@
 <template>
-  <div class="flex flex-col m-8 bg-gray-500" style="width:413px;">
-    <span @click="flipped = !flipped">Flip</span>
-    <div>
-      <span v-show="investigator.currentState.willpower" @click="adjustStat('willpower', false)">+{{investigator.currentState.willpower}} W</span>
-      <span v-show="investigator.currentState.intellect" @click="adjustStat('intellect', false)">+{{investigator.currentState.intellect}} I</span>
-      <span v-show="investigator.currentState.combat" @click="adjustStat('combat', false)">+{{investigator.currentState.combat}} C</span>
-      <span v-show="investigator.currentState.agility" @click="adjustStat('agility', false)">+{{investigator.currentState.agility}} A</span>
+  <div class="block relative" style="width:413px;">
+    <span class="flipper absolute z-30 top-1 text-xl title cursor-pointer" :class="(flipped) ? 'flipped' : ''" style="left:14px" @click="flipped = !flipped">⟳</span>
+    <div class="text-right" style="height: 32px">
+      <span class="stat-block text-xl text-center title m-1 inline-block cursor-pointer" :class="(investigator.currentState.willpower) ? '': 'down'" style="width:40px" @click="adjustStat('willpower', false)">{{(investigator.currentState.willpower) ? `+${investigator.currentState.willpower}` : ''}}</span>
+      <span class="stat-block text-xl text-center title m-1 inline-block cursor-pointer" :class="(investigator.currentState.intellect) ? '': 'down'" style="width:40px" @click="adjustStat('intellect', false)">{{(investigator.currentState.intellect) ? `+${investigator.currentState.intellect}` : ''}}</span>
+      <span class="stat-block text-xl text-center title m-1 inline-block cursor-pointer" :class="(investigator.currentState.combat) ? '': 'down'" style="width:40px" @click="adjustStat('combat', false)">{{(investigator.currentState.combat) ? `+${investigator.currentState.combat}` : ''}}</span>
+      <span class="stat-block text-xl text-center title m-1 inline-block cursor-pointer" :class="(investigator.currentState.agility) ? '': 'down'" style="width:40px" @click="adjustStat('agility', false)">{{(investigator.currentState.agility) ? `+${investigator.currentState.agility}` : ''}}</span>
     </div>
-    <div class="flex-grow">
-      <div class="card">
-        <div class="card-inner" :class="classes">
-          <img class="card-front" :src="`https://arkhamdb.com${investigator.imagesrc}`" :usemap="`#investigator-map-${investigator.code}`"/>
-          <map :name="`investigator-map-${investigator.code}`">
-            <area @click="takeTurn()" alt="Take Turn" title="Take Turn" coords="0,0,217,299" shape="rect">
-            <area @click="adjustStat('willpower')" alt="Willpower" title="Willpower" coords="274,48,224,7" shape="rect">
-            <area @click="adjustStat('intellect')" alt="Intellect" title="Intellect" coords="275,10,320,46" shape="rect">
-            <area @click="adjustStat('combat')" alt="Combat" title="Combat" coords="323,8,368,46" shape="rect">
-            <area @click="adjustStat('agility')" alt="Agility" title="Agility" coords="369,6,414,44" shape="rect">
-            <area @click="adjustStat('health')" alt="Health" title="Health" coords="286,239,322,278" shape="rect">
-            <area @click="adjustStat('sanity')" alt="Sanity" title="Sanity" coords="328,239,370,279" shape="rect">
-          </map>
-          <img class="card-back" :src="`https://arkhamdb.com${investigator.backimagesrc}`"/>
-        </div>
+    <div class="card block relative mb-2">
+      <div class="card-inner" :class="classes">
+        <img class="card-front" :src="`https://arkhamdb.com${investigator.imagesrc}`" :usemap="`#investigator-map-${investigator.code}`"/>
+        <map :name="`investigator-map-${investigator.code}`">
+          <area class="cursor-pointer" @click="takeTurn()" alt="Take Turn" title="Take Turn" coords="0,0,217,299" shape="rect">
+          <area class="cursor-pointer" @click="adjustStat('willpower')" alt="Willpower" title="Willpower" coords="274,48,224,7" shape="rect">
+          <area class="cursor-pointer" @click="adjustStat('intellect')" alt="Intellect" title="Intellect" coords="275,10,320,46" shape="rect">
+          <area class="cursor-pointer" @click="adjustStat('combat')" alt="Combat" title="Combat" coords="323,8,368,46" shape="rect">
+          <area class="cursor-pointer" @click="adjustStat('agility')" alt="Agility" title="Agility" coords="369,6,414,44" shape="rect">
+          <area class="cursor-pointer" @click="adjustStat('health')" alt="Health" title="Health" coords="286,239,322,278" shape="rect">
+          <area class="cursor-pointer" @click="adjustStat('sanity')" alt="Sanity" title="Sanity" coords="328,239,370,279" shape="rect">
+        </map>
+        <img class="card-back" :src="`https://arkhamdb.com${investigator.backimagesrc}`"/>
       </div>
     </div>
-    <div class="flex-initial flex flex-row mx-8 bg-green-900">
-      <div class="flex-1">
-        <span class="block text-center title text-xl" @click="adjustStat('clues', true)">+</span>
-        <div class="tokens">
-          <TokenPile token="clue" :count="investigator.currentState.clues" class="mr-1"></TokenPile> <span class="title text-xl">{{investigator.currentState.clues}}</span>
-        </div>
-        <span class="block text-center title text-xl" @click="adjustStat('clues', false)">-</span>
-      </div>
-      <div class="flex-1">
-        <span class="block text-center" @click="adjustStat('resources', true)">+</span>
-        <TokenPile token="resource" :count="investigator.currentState.resources" class="mr-1"></TokenPile> <span class="title text-xl">{{investigator.currentState.resources}}</span>
-        <span class="block text-center" @click="adjustStat('resources', false)">-</span>
-      </div>
-      <div class="flex-1">
-        <span class="block text-center" @click="adjustStat('health', true)">+</span>
-        <TokenPile token="health" :count="investigator.currentState.health" class="mr-1"></TokenPile> <span class="title text-xl">{{investigator.currentState.health}}</span>
-        <span class="block text-center" @click="adjustStat('health', false)">-</span>
-      </div>
-      <div class="flex-1">
-        <span class="block text-center" @click="adjustStat('sanity', true)">+</span>
-        <TokenPile token="sanity" :count="investigator.currentState.sanity" class="mr-1"></TokenPile> <span class="title text-xl">{{investigator.currentState.sanity}}</span>
-        <span class="block text-center" @click="adjustStat('sanity', false)">-</span>
-      </div>
+    <div class="flex flex-row mx-4">
+      <TokenPile class="flex-grow" token="clue" :count="investigator.currentState.clues" @up="adjustStat('clues', true)" @down="adjustStat('clues', false)"></TokenPile>
+      <TokenPile class="flex-grow" token="resource" :count="investigator.currentState.resources" @up="adjustStat('resources', true)" @down="adjustStat('resources', false)"></TokenPile>
+      <TokenPile class="flex-grow" token="health" :count="investigator.currentState.health" @up="adjustStat('health', true)" @down="adjustStat('health', false)"></TokenPile>
+      <TokenPile class="flex-grow" token="sanity" :count="investigator.currentState.sanity" @up="adjustStat('sanity', true)" @down="adjustStat('sanity', false)"></TokenPile>
     </div>
     <!-- <pre><code>{{investigator}}</code></pre> -->
   </div>
 </template>
+<style scoped>
+  .flipper {
+    transition: transform .25s ease;
+  }
+  .flipper.flipped {
+    transform: rotate(180deg);
+  }
+  .stat-block {
+    opacity: 1;
+    transition: transform .25s ease;
+  }
+  .stat-block.down {
+    transform: translateY(32px);
+  }
+</style>
 <script>
 import Token from './Token.vue';
 import TokenPile from './TokenPile.vue';

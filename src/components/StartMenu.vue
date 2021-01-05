@@ -38,7 +38,7 @@
             <Token class="w-16 h-16 p-2" chaos :token="token" @click="removeToken(index)" rotate></Token>
           </template>
         </div>
-        <h2>Settings</h2>
+        <!-- <h2>Settings</h2>
         <div>
           <span>Health and Sanity</span>
           <input type="radio" name="countUp" value="true">CountUp
@@ -48,7 +48,7 @@
           <span>Stats</span>
           <input type="radio" name="statTotal" value="false">Increment
           <input type="radio" name="statTotal" value="true">Total
-        </div>
+        </div> -->
       </div>
     </div>
     <button @click="startGame()">Start Game</button>

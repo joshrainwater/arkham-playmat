@@ -1,15 +1,20 @@
 <template>  
-  <div class="bg-gray-800 text-gray-50 h-screen w-100 overflow-hidden" v-if="this.cards">
-    <button @click="menuOpen = true">Open Menu</button>
-    <StartMenu class="z-20" v-if="menuOpen" :cards="cards" @newGame="makeNewGame" @close="menuOpen = false"></StartMenu>
-    <div v-if="gameState" class="z-auto bg-gray-800 text-white flex flex-col flex-between">
-      <div id="tracker" class="flex-grow flex flex-row">
-        <DoomTrack v-model:scenario="gameState.scenario"></DoomTrack>
-        <ChaosBag v-model:chaosBag="gameState.chaosBag" v-model:tokensDrawn="gameState.tokensDrawn"></ChaosBag>
+  <div class="bg-gray-800 text-gray-50 h-screen w-100 overflow-hidden"
+       style="background: url('./images/arkham_stolen.jpg') no-repeat center center" v-if="this.cards">
+    <button class="absolute top-0 left-0 rounded-br-lg p-2" style="background-color:rgba(255,255,255,.25)" @click="menuOpen = true">New Game</button>
+    <StartMenu class="z-50" v-if="menuOpen" :cards="cards" @newGame="makeNewGame" @close="menuOpen = false"></StartMenu>
+    <div v-if="gameState" class="z-auto h-screen w-100 text-white" style="background: linear-gradient(rgba(17, 24, 39, .6),rgb(31, 41, 55))">
+      <div id="trackers" class="h-1/3">
+        <div class="inline-block w-2/3 p-8">
+          <DoomTrack v-model:scenario="gameState.scenario"></DoomTrack>
+        </div>
+        <div class="inline-block w-1/3 p-8">
+          <ChaosBag v-model:chaosBag="gameState.chaosBag" v-model:tokensDrawn="gameState.tokensDrawn"></ChaosBag>
+        </div>
       </div>
-      <div id="investigators" class="flex-grow flex flex-row">
+      <div id="investigators" class="h-2/3 flex flex-row items-center justify-around">
         <template v-for="(investigator, index) in gameState.investigators" :key="index">
-          <Investigator class="flex-1" v-model:investigator="gameState.investigators[index]"></Investigator>
+          <Investigator v-model:investigator="gameState.investigators[index]"></Investigator>
         </template>
       </div>
     </div> 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img :src="`/images/${(chaos ? 'chaos/': '')}${token}.png`" 
+    <img :src="`./images/${(chaos ? 'chaos/': '')}${token}.png`" 
          :alt="token" 
          :style="`transform: rotate(${rotation}deg) translateX(${x}px) translateY(${y}px)`">
   </div>
